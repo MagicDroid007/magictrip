@@ -1,9 +1,7 @@
 package com.magicdroid.magictrip.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,8 +10,10 @@ import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+/**
+ * Created by magic on 08/04/17.
+ */
 public class HomeActivity extends BaseActivity {
 
     private SearchBox search;
@@ -64,6 +64,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onResultClick(SearchResult result) {
                 //React to a result being clicked
+                Toast.makeText(mContext, "Menu click :" + result.title, Toast.LENGTH_LONG).show();
             }
 
 

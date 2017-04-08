@@ -8,6 +8,10 @@ public interface AppConstants {
     int CONNECTION_TIME_OUT = 120;
 
     /*
+    *  Preference key
+    */
+    String IS_WALK_THROUGH = "is_walk_through";
+    /*
     *  recent search database key
     */
     String RECENT_SEARCH_TABLE = "r_s_tlb";
