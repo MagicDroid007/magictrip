@@ -1,13 +1,19 @@
-package com.magicdroid.magictrip;
+package com.magicdroid.magictrip.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class HomeActivity extends AppCompatActivity {
+import com.magicdroid.magictrip.R;
+import com.magicdroid.magictrip.network.APIServices;
+import com.magicdroid.magictrip.network.RetroFitServiceCreator;
+
+public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
     }
 }
