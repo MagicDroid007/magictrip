@@ -1,15 +1,29 @@
 package com.magicdroid.magictrip.utililty;
 
 /**
- * Created by sanidhya on 29/3/17.
+ * Created by magic on 29/3/17.
  */
 
-public class AppConstants {
-    public static int CONNECTION_TIME_OUT = 120;
+public interface AppConstants {
+    int CONNECTION_TIME_OUT = 120;
 
-    public class API {
-        public static final int CITY = 1;
-        public static final int ZOMATO = 2;
-        public static final int ZOMATO_GOOGLE = 3;
-    }
+    /*
+    *  recent search database key
+    */
+    String RECENT_SEARCH_TABLE = "r_s_tlb";
+    String CITY_ID = "r_s_city_id";
+    String ORIGIN_CITY_ID = "r_s_o_city_id";
+    String CITY_NAME = "r_s_city_name";
+    String STATE = "r_s_state";
+    String COUNTRY = "r_s_country";
+    String LATITUDE = "r_s_lat";
+    String LONGITUDE = "r_s_lng";
+    String TIMESTAMP = "r_stime";
+
+    /*
+    *
+    */
+    int CITY = 1;
+    int ZOMATO = 2;
+    int ZOMATO_GOOGLE = 3;
 }

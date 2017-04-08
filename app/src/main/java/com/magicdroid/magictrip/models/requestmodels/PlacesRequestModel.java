@@ -1,7 +1,7 @@
 package com.magicdroid.magictrip.models.requestmodels;
 
 /**
- * Created by sanidhya on 4/4/17.
+ * Created by magic on 4/4/17.
  */
 
 public class PlacesRequestModel extends BaseRequestModel {
