@@ -30,24 +30,17 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    /* Views */
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-
-    /* Reactive Programming */
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
-
-    /* Network Libraries */
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
-
-    /* Detect Memory Leaks at Debug */
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-
+    compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
     testCompile 'junit:junit:4.12'
 }
