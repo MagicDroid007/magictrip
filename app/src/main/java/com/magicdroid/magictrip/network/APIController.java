@@ -54,11 +54,12 @@ public class APIController {
                     @Override
                     public void call(Subscriber<? super ArrayList<CityModel>> subscriber) {
                         try {
-                            Call<ArrayList<CityModel>> restaurant = apiService.getCities(placesRequestModel.type);
+                            Call<ArrayList<CityModel>> restaurant = apiService.getCities(placesRequestModel.cityName);
                             ArrayList<CityModel> body = restaurant.execute().body();
                             subscriber.onNext(body);
                             subscriber.onCompleted();
                         } catch (Exception e) {
+
                             subscriber.onError(e);
                         }
                     }

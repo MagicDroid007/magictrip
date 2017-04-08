@@ -5,6 +5,7 @@ package com.magicdroid.magictrip.models.requestmodels;
  */
 
 public class PlacesRequestModel extends BaseRequestModel {
+    public String cityName;
     public String type;
     public String latitude;
     public String longitude;
