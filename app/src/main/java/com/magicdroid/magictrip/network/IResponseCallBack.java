@@ -11,11 +11,4 @@ public interface IResponseCallBack<Object> {
 
     public void onNetWorkFailure();
 
-    public void onCompleted(int apCode);
-
-    public void onProgress(int apCode);
-
-    public void onNext(Object responseClass);
-
-
 }

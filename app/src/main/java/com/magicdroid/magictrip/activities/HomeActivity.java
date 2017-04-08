@@ -1,91 +1,110 @@
 package com.magicdroid.magictrip.activities;
 
-import android.content.Intent;
-import android.speech.RecognizerIntent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 
 import com.magicdroid.magictrip.R;
-import com.quinny898.library.persistentsearch.SearchBox;
-import com.quinny898.library.persistentsearch.SearchResult;
+import com.magicdroid.magictrip.adapters.CitiesListAdapter;
+import com.magicdroid.magictrip.models.requestmodels.PlacesRequestModel;
+import com.magicdroid.magictrip.models.responsemodel.CityModel;
+import com.magicdroid.magictrip.network.APIController;
+import com.magicdroid.magictrip.network.APIServices;
+import com.magicdroid.magictrip.network.IResponseCallBack;
+import com.magicdroid.magictrip.network.RetroFitServiceCreator;
+import com.magicdroid.magictrip.utililty.AppConstants;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by magic on 08/04/17.
  */
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements IResponseCallBack {
 
-    private SearchBox search;
+    private CitiesListAdapter citiesListAdapter;
+    private ArrayList<CityModel> cityModelArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        search = (SearchBox) findViewById(R.id.searchbox);
-        for (int x = 0; x < 10; x++) {
-            SearchResult option = new SearchResult("Result " + Integer.toString(x), getResources().getDrawable(R.drawable.ic_action_mic));
-            search.addSearchable(option);
-        }
-        search.enableVoiceRecognition(this);
-        search.setLogoText("Search destinations...");
-        search.setMenuListener(new SearchBox.MenuListener() {
+        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.txtAutoCompleteCity);
 
+        cityModelArrayList = new ArrayList<>();
+        autoCompleteTextView.setThreshold(1);
+        citiesListAdapter = new CitiesListAdapter(this);
+        autoCompleteTextView.setAdapter(citiesListAdapter);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onMenuClick() {
-                //Hamburger has been clicked
-                Toast.makeText(mContext, "Menu click", Toast.LENGTH_LONG).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                autoCompleteTextView.setText(cityModelArrayList.get(position).text);
+                autoCompleteTextView.setSelection(cityModelArrayList.get(position).text.length());
             }
-
         });
-        search.setSearchListener(new SearchBox.SearchListener() {
+        final APIController apiController = new APIController(mContext);
 
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onSearchOpened() {
-                //Use this to tint the screen
-            }
-
-            @Override
-            public void onSearchClosed() {
-                //Use this to un-tint the screen
-            }
-
-            @Override
-            public void onSearchTermChanged(String s) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onSearch(String searchTerm) {
-                Toast.makeText(mContext, searchTerm + " Searched", Toast.LENGTH_LONG).show();
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                String data = autoCompleteTextView.getText().toString();
+                if (data.startsWith(" ")) {
+                    autoCompleteTextView.setText("");
+                    return;
+                }
 
+                if (data.isEmpty()) {
+
+                    cityModelArrayList.clear();
+
+                }
+                if (s.length() >= 3) {
+                    PlacesRequestModel placesRequestModel = new PlacesRequestModel();
+                    placesRequestModel.cityName = s.toString();
+                    apiController.executeRequest(placesRequestModel, HomeActivity.this, AppConstants.CITY);
+
+                } else {
+                    cityModelArrayList.clear();
+                    citiesListAdapter.addAll(cityModelArrayList);
+                }
             }
 
             @Override
-            public void onResultClick(SearchResult result) {
-                //React to a result being clicked
-                Toast.makeText(mContext, "Menu click :" + result.title, Toast.LENGTH_LONG).show();
-            }
-
-
-            @Override
-            public void onSearchCleared() {
+            public void afterTextChanged(Editable editable) {
 
             }
-
         });
+
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SearchBox.VOICE_RECOGNITION_CODE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data
-                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            search.populateEditText(matches.get(0));
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onSuccessResponse(Object t, int apiCode) {
+
+        cityModelArrayList = (ArrayList<CityModel>) t;
+        citiesListAdapter.addAll(cityModelArrayList);
     }
 
+    @Override
+    public void onFailureResponse(Throwable e, int apCode) {
 
+    }
+
+    @Override
+    public void onNetWorkFailure() {
+
+    }
 }
 

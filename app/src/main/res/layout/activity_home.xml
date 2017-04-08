@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.magicdroid.magictrip.activities.HomeActivity">
 
-    <com.quinny898.library.persistentsearch.SearchBox
-        android:id="@+id/searchbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        card_view:cardUseCompatPadding="false"
+        card_view:cardCornerRadius="4dp"
+        card_view:contentPadding="0dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/txtAutoCompleteCity"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:elevation="5dp"
+            android:hint="Search Destinations..."
+            android:padding="10dp" />
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

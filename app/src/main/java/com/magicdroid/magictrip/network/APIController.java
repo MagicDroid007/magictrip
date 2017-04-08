@@ -1,29 +1,44 @@
 package com.magicdroid.magictrip.network;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.magicdroid.magictrip.models.responsemodel.placesmodels.PlacesModel;
 import com.magicdroid.magictrip.models.requestmodels.BaseRequestModel;
 import com.magicdroid.magictrip.models.requestmodels.PlacesRequestModel;
+import com.magicdroid.magictrip.models.responsemodel.CityModel;
+import com.magicdroid.magictrip.models.responsemodel.placesmodels.PlacesModel;
 import com.magicdroid.magictrip.utililty.AppConstants;
 
+import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
 
 /**
- * Created by MagicDroid on 08/4/2017.
+ * Created by sanidhya.kumar on 31/3/17.
  */
 public class APIController {
-
-    private final APIServices apiServiceMap;
     private Context context;
+    private APIServices apiService;
+    private Subscription subscription;
+    private long startTime;
+
 
     public APIController(Context context) {
+        apiService = RetroFitServiceCreator.getClient(APIServices.class, APIServices.BASE_URL, context);
         this.context = context;
-        apiServiceMap = RetroFitServiceCreator.getClient(APIServices.class, APIServices.BASE_URL_GOOGLE, context);
+    }
+
+    public void unSubScribe() {
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
     }
 
     public void executeRequest(final BaseRequestModel requestRModel, final IResponseCallBack iResponseCallBack, int apiCode) {
@@ -33,19 +48,26 @@ public class APIController {
         }
         switch (apiCode) {
             case AppConstants.CITY:
-                final PlacesRequestModel requestRModel1 = (PlacesRequestModel) requestRModel;
-                Call<PlacesModel> restaurant = apiServiceMap.getNearbyPlaces(requestRModel1.type, requestRModel1.latitude + "," + requestRModel1.longitude, requestRModel1.radius);
-                restaurant.enqueue(new Callback<PlacesModel>() {
+                APIObservable<ArrayList<CityModel>> apiObservable = new APIObservable<>(iResponseCallBack, apiCode);
+                final PlacesRequestModel placesRequestModel = (PlacesRequestModel) requestRModel;
+                Observable<ArrayList<CityModel>> placesModelObservable = Observable.create(new Observable.OnSubscribe<ArrayList<CityModel>>() {
                     @Override
-                    public void onResponse(Call<PlacesModel> call, Response<PlacesModel> response) {
-                        iResponseCallBack.onSuccessResponse(response, AppConstants.CITY);
-                    }
-
-                    @Override
-                    public void onFailure(Call<PlacesModel> call, Throwable t) {
-                        iResponseCallBack.onFailureResponse(t, AppConstants.CITY);
+                    public void call(Subscriber<? super ArrayList<CityModel>> subscriber) {
+                        try {
+                            Call<ArrayList<CityModel>> restaurant = apiService.getCities(placesRequestModel.type);
+                            ArrayList<CityModel> body = restaurant.execute().body();
+                            subscriber.onNext(body);
+                            subscriber.onCompleted();
+                        } catch (Exception e) {
+                            subscriber.onError(e);
+                        }
                     }
                 });
+
+                subscription = placesModelObservable
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(apiObservable);
                 break;
 
         }

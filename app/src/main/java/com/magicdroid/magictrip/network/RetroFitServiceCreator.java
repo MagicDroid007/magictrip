@@ -28,7 +28,6 @@ public class RetroFitServiceCreator {
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            // builder.sslSocketFactory(sslSocketFactory, mod509);
             builder.addNetworkInterceptor(httpLoggingInterceptor);
 
             final Cache responseCache = new Cache(context.getCacheDir(), 10 * 1024 * 1024);
@@ -39,9 +38,6 @@ public class RetroFitServiceCreator {
 
             builder.readTimeout(AppConstants.CONNECTION_TIME_OUT, TimeUnit.SECONDS);
             builder.connectTimeout(AppConstants.CONNECTION_TIME_OUT, TimeUnit.SECONDS);
-
-            //builder.followRedirects(true);
-            //builder.retryOnConnectionFailure(true);
 
             OkHttpClient client = builder.build();
 

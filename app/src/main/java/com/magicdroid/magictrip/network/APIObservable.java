@@ -15,7 +15,6 @@ class APIObservable<T> extends Subscriber<T> implements Observer<T> {
 
     @Override
     public void onCompleted() {
-        iResponseCallBack.onCompleted(apiCode);
 
     }
 

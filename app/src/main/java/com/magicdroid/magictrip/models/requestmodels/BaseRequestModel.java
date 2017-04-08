@@ -7,4 +7,5 @@ import java.io.Serializable;
  */
 
 public class BaseRequestModel implements Serializable {
+    public String cityName;
 }

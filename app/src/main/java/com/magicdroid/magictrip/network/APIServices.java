@@ -2,7 +2,10 @@ package com.magicdroid.magictrip.network;
 
 
 
+import com.magicdroid.magictrip.models.responsemodel.CityModel;
 import com.magicdroid.magictrip.models.responsemodel.placesmodels.PlacesModel;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,10 +16,10 @@ import retrofit2.http.Query;
  */
 public interface APIServices {
 
-    String BASE_URL_GOOGLE = "https://maps.googleapis.com/maps/";
+    String BASE_URL = "http://build2.ixigo.com/";
 
-    @GET("api/place/nearbysearch/json?sensor=true&key=AIzaSyDN7RJFmImYAca96elyZlE5s_fhX-MMuhk")
-    Call<PlacesModel> getNearbyPlaces(@Query("type") String type, @Query("location") String location, @Query("radius") int radius);
+    @GET("action/content/zeus/autocomplete?searchFor=tpAutoComplete&neCategories=City")
+    Call<ArrayList<CityModel>> getCities(@Query("query") String type);
 
 }
 
