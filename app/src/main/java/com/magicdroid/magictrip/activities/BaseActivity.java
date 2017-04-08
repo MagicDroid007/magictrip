@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+/**
+ * Created by magic on 08/04/17.
+ */
 public class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
