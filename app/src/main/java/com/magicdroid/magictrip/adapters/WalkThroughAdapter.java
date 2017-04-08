@@ -20,7 +20,6 @@ public class WalkThroughAdapter extends PagerAdapter {
         mContext = context;
     }
 
-
     @Override
     public int getCount() {
         return 3;
@@ -53,10 +52,6 @@ public class WalkThroughAdapter extends PagerAdapter {
                 walkthroughMessageSecondLine.setText("Browse your trip info even\nwith no internet connection");
                 break;
         }
-
-
-
-
         container.addView(view);
         return view;
     }
