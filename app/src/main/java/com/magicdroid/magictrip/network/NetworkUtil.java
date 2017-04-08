@@ -5,34 +5,18 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * The Class NetworkManager.
+ * The Class NetworkUtil.
  */
-public class NetworkManager {
-
-    /**
-     * The context.
-     */
-    private Context context;
-
-    /**
-     * Instantiates a new network manager.
-     *
-     * @param context the context
-     */
-    public NetworkManager(Context context) {
-        this.context = context;
-    }
-
+public class NetworkUtil {
     /**
      * Checks if is internet connected.
-     *
+     * @param context context of the calling class
      * @return true, if is internet connected
      */
-    public boolean isInternetConnected() {
+    public static boolean isInternetConnected(Context context) {
 
         try {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
                 return true;
@@ -41,7 +25,6 @@ public class NetworkManager {
 
         }
         return false;
-
     }
 
 }

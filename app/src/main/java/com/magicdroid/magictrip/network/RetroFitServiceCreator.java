@@ -94,7 +94,7 @@ public class RetroFitServiceCreator {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
 
-                if (!new NetworkManager(context).isInternetConnected()) {
+                if (!NetworkUtil.isInternetConnected(context)) {
                     CacheControl cacheControl = new CacheControl.Builder()
                             .maxStale(1, TimeUnit.DAYS)
                             .build();
